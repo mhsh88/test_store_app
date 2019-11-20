@@ -1,11 +1,14 @@
 package ir.sharifi.soroush.soroush_test_project.food.dto;
 
 import ir.sharifi.soroush.soroush_test_project.base.dto.BaseInsertDto;
+import ir.sharifi.soroush.soroush_test_project.base.model.ProductType;
 import ir.sharifi.soroush.soroush_test_project.base.model.Unit;
+import lombok.Data;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@Data
 public class FoodInsertDto extends BaseInsertDto {
     private String name;
     private String producer;
@@ -16,4 +19,13 @@ public class FoodInsertDto extends BaseInsertDto {
     private LocalDate expirationDate;
     private double quantity;
     private Unit unit;
+    private ProductType type;
+
+    public ProductType getType() {
+        return ProductType.FOODSTUFF;
+    }
+
+    public void setType(ProductType type) {
+        this.type = ProductType.FOODSTUFF;
+    }
 }

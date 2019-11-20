@@ -1,15 +1,15 @@
 package ir.sharifi.soroush.soroush_test_project.user.controller;
 
+import ir.sharifi.soroush.soroush_test_project.user.UserDbConfig;
 import ir.sharifi.soroush.soroush_test_project.user.model.AppUser;
 import ir.sharifi.soroush.soroush_test_project.user.service.IUserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest
+@ContextConfiguration(classes = {UserDbConfig.class})
 class UserControllerTest {
 
     @Autowired
@@ -39,7 +40,7 @@ class UserControllerTest {
         toDoList.add( AppUser.builder().firstName("sharif").lastName("hosseini").userName("shhosseini").password("mypassword").personnelNumber(123457).build()   );
         when(userService.getModels()).thenReturn(toDoList);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/todos")
+        mockMvc.perform(MockMvcRequestBuilders.get("/user")
                 .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(jsonPath("$", hasSize(2))).andDo(print());
     }

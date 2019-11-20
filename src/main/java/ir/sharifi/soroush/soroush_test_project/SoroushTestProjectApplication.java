@@ -13,7 +13,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"ir.sharifi.soroush.soroush_test_project.food.service",
 		"ir.sharifi.soroush.soroush_test_project.detergent",
 		"ir.sharifi.soroush.soroush_test_project.food",
-		"ir.sharifi.soroush.soroush_test_project.user"
+		"ir.sharifi.soroush.soroush_test_project.user",
+		"ir.sharifi.soroush.soroush_test_project.config"
 
 
 })

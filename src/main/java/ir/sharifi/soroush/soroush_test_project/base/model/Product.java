@@ -27,11 +27,7 @@ class Product extends BaseEntity<Long> {
     @Column(name="unit")
     @Enumerated(EnumType.STRING)
     private Unit unit;
-//    @Column(name="type")
-//    @Enumerated(EnumType.STRING)
-//    private ProductType type;
-
-
-
-
+    @Column(name="type")
+    @Convert(converter = ProductTypeConverter.class)
+    private ProductType type;
 }

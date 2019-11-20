@@ -68,7 +68,7 @@ public abstract class BaseController<T extends BaseEntity<ID>, ID extends Serial
     public ResponseEntity getAll()  {
 
         List<T> all = getService().getModels();
-        List<Y> entityToDto = modelMapper.map(all, new TypeToken<List<Y>>(){}.getType());
+        List<Y> entityToDto = modelMapper.map(all, new TypeToken<List>(){}.getType());
         return ResponseEntity.ok(entityToDto);
 
     }

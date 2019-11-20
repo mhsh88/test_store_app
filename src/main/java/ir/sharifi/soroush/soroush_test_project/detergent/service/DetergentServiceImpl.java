@@ -5,7 +5,10 @@ import ir.sharifi.soroush.soroush_test_project.base.service.BaseServiceImpl;
 import ir.sharifi.soroush.soroush_test_project.detergent.model.Detergent;
 import ir.sharifi.soroush.soroush_test_project.detergent.repo.DetergentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class DetergentServiceImpl extends BaseServiceImpl<Detergent, Long> implements IDetergentService {
@@ -20,5 +23,11 @@ public class DetergentServiceImpl extends BaseServiceImpl<Detergent, Long> imple
     @Override
     public BaseRepository<Detergent, Long> getRepository() {
         return detergentRepository;
+    }
+
+    @Override
+    @Cacheable("getAllDetergent")
+    public List<Detergent> getModels() {
+        return super.getModels();
     }
 }
