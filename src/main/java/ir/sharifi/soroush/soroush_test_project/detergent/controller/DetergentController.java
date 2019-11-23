@@ -26,7 +26,7 @@ public class DetergentController extends BaseController<Detergent, Long, Deterge
 
 
     @Override
-    public BaseService<Detergent, Long> getService() {
+    public BaseService<Detergent, Long, DetergentInDto, DetergentOutDto, DetergentInsertDto, DetergentUpdateDto> getService() {
         return detergentService;
     }
 }

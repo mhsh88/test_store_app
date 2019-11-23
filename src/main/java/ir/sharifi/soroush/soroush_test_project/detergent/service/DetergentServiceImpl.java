@@ -2,6 +2,10 @@ package ir.sharifi.soroush.soroush_test_project.detergent.service;
 
 import ir.sharifi.soroush.soroush_test_project.base.repository.BaseRepository;
 import ir.sharifi.soroush.soroush_test_project.base.service.BaseServiceImpl;
+import ir.sharifi.soroush.soroush_test_project.detergent.dto.DetergentInDto;
+import ir.sharifi.soroush.soroush_test_project.detergent.dto.DetergentInsertDto;
+import ir.sharifi.soroush.soroush_test_project.detergent.dto.DetergentOutDto;
+import ir.sharifi.soroush.soroush_test_project.detergent.dto.DetergentUpdateDto;
 import ir.sharifi.soroush.soroush_test_project.detergent.model.Detergent;
 import ir.sharifi.soroush.soroush_test_project.detergent.repo.DetergentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DetergentServiceImpl extends BaseServiceImpl<Detergent, Long> implements IDetergentService {
+public class DetergentServiceImpl extends BaseServiceImpl<Detergent, Long, DetergentInDto, DetergentOutDto, DetergentInsertDto, DetergentUpdateDto> implements IDetergentService {
 
     private final DetergentRepository detergentRepository;
 
@@ -27,7 +31,7 @@ public class DetergentServiceImpl extends BaseServiceImpl<Detergent, Long> imple
 
     @Override
     @Cacheable("getAllDetergent")
-    public List<Detergent> getModels() {
+    public List<DetergentOutDto> getModels() {
         return super.getModels();
     }
 }

@@ -5,4 +5,9 @@ import lombok.Data;
 
 @Data
 public class UserUpdateDto extends BaseUpdateDto<Integer> {
+    private String firstName;
+    private String lastName;
+    private int personnelNumber;
+    private String userName;
+    private String password;
 }

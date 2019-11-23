@@ -27,7 +27,7 @@ public class FoodController extends BaseController<FoodStuff, Long, FoodInDto, F
     }
 
     @Override
-    public BaseService<FoodStuff, Long> getService() {
+    public BaseService<FoodStuff, Long,FoodInDto, FoodOutDto, FoodInsertDto, FoodUpdateDto> getService() {
         return foodService;
     }
 }

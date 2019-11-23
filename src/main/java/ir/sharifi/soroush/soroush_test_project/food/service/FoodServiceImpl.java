@@ -2,6 +2,10 @@ package ir.sharifi.soroush.soroush_test_project.food.service;
 
 import ir.sharifi.soroush.soroush_test_project.base.repository.BaseRepository;
 import ir.sharifi.soroush.soroush_test_project.base.service.BaseServiceImpl;
+import ir.sharifi.soroush.soroush_test_project.food.dto.FoodInDto;
+import ir.sharifi.soroush.soroush_test_project.food.dto.FoodInsertDto;
+import ir.sharifi.soroush.soroush_test_project.food.dto.FoodOutDto;
+import ir.sharifi.soroush.soroush_test_project.food.dto.FoodUpdateDto;
 import ir.sharifi.soroush.soroush_test_project.food.model.FoodStuff;
 import ir.sharifi.soroush.soroush_test_project.food.repo.FoodRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FoodServiceImpl extends BaseServiceImpl<FoodStuff, Long> implements IFoodService {
+public class FoodServiceImpl extends BaseServiceImpl<FoodStuff, Long, FoodInDto, FoodOutDto, FoodInsertDto, FoodUpdateDto> implements IFoodService {
 
     private final FoodRepository foodRepository;
 
@@ -27,7 +31,7 @@ public class FoodServiceImpl extends BaseServiceImpl<FoodStuff, Long> implements
 
     @Override
     @Cacheable("getAllFood")
-    public List<FoodStuff> getModels() {
+    public List<FoodOutDto> getModels() {
         return super.getModels();
     }
 }
