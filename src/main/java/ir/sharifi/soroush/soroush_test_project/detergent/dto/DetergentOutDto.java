@@ -5,11 +5,12 @@ import ir.sharifi.soroush.soroush_test_project.base.model.ProductType;
 import ir.sharifi.soroush.soroush_test_project.base.model.Unit;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public class DetergentOutDto extends BaseOutDto<Long> {
     public DetergentOutDto() {

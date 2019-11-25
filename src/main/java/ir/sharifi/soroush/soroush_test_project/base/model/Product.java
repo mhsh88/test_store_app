@@ -1,7 +1,9 @@
 package ir.sharifi.soroush.soroush_test_project.base.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,8 +16,11 @@ import java.time.LocalDateTime;
         discriminatorType=DiscriminatorType.STRING
 )
 @EqualsAndHashCode(callSuper = true)
+@AllArgsConstructor
+@NoArgsConstructor
 public @Data
 class Product extends BaseEntity<Long> {
+
     private String name;
     private String producer;
     private long isbn;

@@ -33,13 +33,6 @@ public abstract class BaseServiceImpl<T extends BaseEntity<I>, I extends Seriali
     }
 
     @Override
-    public Y getOne(I id) {
-        T one = getRepository().getOne(id);
-
-        return modelMapper.map(one,getOutDtoClass());
-    }
-
-    @Override
     public Y insert(Z insertDto) {
         T model = modelMapper.map(insertDto, getModelClass());
 

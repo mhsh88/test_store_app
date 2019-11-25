@@ -18,7 +18,6 @@ import java.util.List;
 public interface BaseService<T extends BaseEntity<I>, I extends Serializable, V extends BaseInDto, Y extends BaseOutDto<I>, Z extends BaseInsertDto, X extends BaseUpdateDto<I>> {
     BaseRepository<T, I> getRepository();
     Y findById(I id);
-    Y getOne(I id);
     @Transactional
     Y insert(Z model);
     @Transactional
