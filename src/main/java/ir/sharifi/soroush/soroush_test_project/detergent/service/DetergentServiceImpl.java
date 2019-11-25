@@ -38,24 +38,4 @@ public class DetergentServiceImpl extends BaseServiceImpl<Detergent, Long, Deter
     public List<DetergentOutDto> getModels() {
         return super.getModels();
     }
-
-    @Override
-    public DetergentOutDto insert( DetergentInsertDto insertDto) {
-
-        if(insertDto.getBringInDate().isBefore(LocalDateTime.of(insertDto.getProductionDate(), LocalTime.of(0,0)))){
-            throw new IllegalArgumentException("bring in date must be after production date!");
-        }
-        if(insertDto.getBringOutDate().isBefore(insertDto.getBringInDate()))
-        {
-            throw new IllegalArgumentException("bring out date must be before bring in date!");
-        }
-        if(insertDto.getExpirationDate().isBefore(insertDto.getProductionDate())){
-
-            throw new IllegalArgumentException("expiration date must be after production date!");
-        }
-        if(insertDto.getExpirationDate().isBefore(insertDto.getBringInDate().toLocalDate())){
-            throw new IllegalArgumentException("the product must not be expired for storing!");
-        }
-        return super.insert(insertDto);
-    }
 }
