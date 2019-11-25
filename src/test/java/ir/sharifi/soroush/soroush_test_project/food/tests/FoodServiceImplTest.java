@@ -1,5 +1,8 @@
-package ir.sharifi.soroush.soroush_test_project.food.service;
+package ir.sharifi.soroush.soroush_test_project.food.tests;
 
+import com.sun.glass.ui.Application;
+import ir.sharifi.soroush.soroush_test_project.H2TestProfileJPAConfig;
+import ir.sharifi.soroush.soroush_test_project.TestConfigs;
 import ir.sharifi.soroush.soroush_test_project.base.model.ProductType;
 import ir.sharifi.soroush.soroush_test_project.base.model.Unit;
 import ir.sharifi.soroush.soroush_test_project.food.dto.FoodInsertDto;
@@ -7,11 +10,17 @@ import ir.sharifi.soroush.soroush_test_project.food.dto.FoodOutDto;
 import ir.sharifi.soroush.soroush_test_project.food.dto.FoodUpdateDto;
 import ir.sharifi.soroush.soroush_test_project.food.model.FoodStuff;
 import ir.sharifi.soroush.soroush_test_project.food.repo.FoodRepository;
+import ir.sharifi.soroush.soroush_test_project.food.service.FoodServiceImpl;
+import ir.sharifi.soroush.soroush_test_project.food.service.IFoodService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
@@ -20,7 +29,13 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(classes = {
+        Application.class,
+        H2TestProfileJPAConfig.class,
+        FoodServiceImpl.class,
+        TestConfigs.class
+})
+@ActiveProfiles("test")
 class FoodServiceImplTest {
 
     @Autowired

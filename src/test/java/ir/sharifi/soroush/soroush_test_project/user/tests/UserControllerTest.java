@@ -1,29 +1,49 @@
-package ir.sharifi.soroush.soroush_test_project.user.controller;
+package ir.sharifi.soroush.soroush_test_project.user.tests;
 
+import com.sun.glass.ui.Application;
+import ir.sharifi.soroush.soroush_test_project.H2TestProfileJPAConfig;
+import ir.sharifi.soroush.soroush_test_project.TestConfigs;
+import ir.sharifi.soroush.soroush_test_project.user.controller.UserController;
 import ir.sharifi.soroush.soroush_test_project.user.dto.LoginRequest;
 import ir.sharifi.soroush.soroush_test_project.user.dto.UserLoginResponse;
 import ir.sharifi.soroush.soroush_test_project.user.dto.UserOutDto;
 import ir.sharifi.soroush.soroush_test_project.user.dto.UserRegisterDto;
 import ir.sharifi.soroush.soroush_test_project.user.model.AppUser;
 import ir.sharifi.soroush.soroush_test_project.user.repo.UserRepository;
+import ir.sharifi.soroush.soroush_test_project.user.service.IUserService;
+import ir.sharifi.soroush.soroush_test_project.user.service.UserServiceImpl;
+import ir.sharifi.soroush.soroush_test_project.utils.jwtUtils.TokenProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-//@ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(classes = {
+        Application.class,
+        H2TestProfileJPAConfig.class,
+        UserController.class,
+        IUserService.class,
+        UserServiceImpl.class,
+        TestConfigs.class
+})
+@ActiveProfiles("test")
 @AutoConfigureMockMvc
 class UserControllerTest {
 
@@ -33,11 +53,11 @@ class UserControllerTest {
     @Autowired
     PasswordEncoder encoder;
 
+    @MockBean
+    AuthenticationManager authenticationManager;
 
-
-//    @MockBean
-//    private IUserService userService;
-
+    @MockBean
+    TokenProvider tokenProvider;
 
     @Autowired
     UserController userController;
@@ -46,26 +66,17 @@ class UserControllerTest {
     private AppUser initUser;
     private String name = "notHossein";
     private String lastName = "notLastName";
-    private String userName = "thisUserName";
+    private String userName = "controllerThisUserName";
     private String password = "thisPassword";
     private int personnelNum = 654321;
     private UserRegisterDto newRegistery;
 
-//    @Test
-//    void getAllUser() throws Exception {
-//        List<AppUser> toDoList = new ArrayList<AppUser>();
-//        toDoList.add( AppUser.builder().firstName("hossein").lastName("sharifi").userName("mhsharifi").password("mypassword").personnelNumber(123456).build()   );
-//        toDoList.add( AppUser.builder().firstName("sharif").lastName("hosseini").userName("shhosseini").password("mypassword").personnelNumber(123457).build()   );
-//        when(userService.getModels()).thenReturn(toDoList);
-//
-//        mockMvc.perform(MockMvcRequestBuilders.get("/user")
-//                .contentType(MediaType.APPLICATION_JSON)
-//        ).andExpect(jsonPath("$", hasSize(2))).andDo(print());
-//    }
-
 
     @BeforeEach
     void setUp() {
+
+
+
 
         initUser = AppUser.builder().firstName(name).lastName(lastName).userName(userName).password(encoder.encode(password)).personnelNumber(personnelNum).build();
 
@@ -116,12 +127,20 @@ class UserControllerTest {
 
     @Test
     void login() {
+        Mockito.when(tokenProvider.createToken(Mockito.any(String.class))).thenReturn("qwertyuiop");
         LoginRequest loginRequest = LoginRequest.builder().username(userName).password(password).build();
         ResponseEntity loginResponse = userController.login(loginRequest);
         assertEquals(loginResponse.getStatusCodeValue(),200);
         assertNotNull(((UserLoginResponse)loginResponse.getBody()).getToken());
 
-        ResponseEntity fakeLogin = userController.login(LoginRequest.builder().username(userName).password(encoder.encode(password)).build());
+
+        String userName = this.userName;
+        String encode = encoder.encode(password);
+
+        Mockito.when(authenticationManager.authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class)))
+                .thenThrow(new UsernameNotFoundException("exception"));
+        ResponseEntity fakeLogin = userController.login(LoginRequest.builder().username(userName).password(encode).build());
+
         assertEquals(fakeLogin.getBody(),"username.not.found");
         assertEquals(400,fakeLogin.getStatusCodeValue());
 
@@ -154,7 +173,6 @@ class UserControllerTest {
 
 
 
-//        ResponseEntity responseEntity = userController.userRegister(registerDto);
 
 
 

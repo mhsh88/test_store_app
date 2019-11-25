@@ -1,29 +1,52 @@
-package ir.sharifi.soroush.soroush_test_project.user.service;
+package ir.sharifi.soroush.soroush_test_project.user.tests;
 
+import com.sun.glass.ui.Application;
+import ir.sharifi.soroush.soroush_test_project.H2TestProfileJPAConfig;
+import ir.sharifi.soroush.soroush_test_project.TestConfigs;
+import ir.sharifi.soroush.soroush_test_project.food.repo.FoodRepository;
 import ir.sharifi.soroush.soroush_test_project.user.dto.UserInsertDto;
 import ir.sharifi.soroush.soroush_test_project.user.dto.UserOutDto;
 import ir.sharifi.soroush.soroush_test_project.user.dto.UserUpdateDto;
 import ir.sharifi.soroush.soroush_test_project.user.model.AppUser;
+import ir.sharifi.soroush.soroush_test_project.user.service.IUserService;
+import ir.sharifi.soroush.soroush_test_project.user.service.UserServiceImpl;
+import ir.sharifi.soroush.soroush_test_project.utils.jwtUtils.TokenProvider;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(classes = {
+        Application.class,
+        H2TestProfileJPAConfig.class,
+        UserServiceImpl.class,
+        TestConfigs.class
+})
+@ActiveProfiles("test")
 class UserServiceImplTest {
     @Autowired
     IUserService userService;
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @MockBean
+    AuthenticationManager authenticationManager;
+
+    @MockBean
+    TokenProvider tokenProvider;
+
     private UserInsertDto initUser;
     private AppUser secondUser;
     private UserOutDto testUser;
@@ -93,7 +116,7 @@ class UserServiceImplTest {
     void update() {
         String name = "notHossein";
         String lastName = "notLastName";
-        String userName = "thisUserName";
+        String userName = "theyUserName";
         String password = passwordEncoder.encode("thisPassword");
         int personnelNum = 654321;
         testUser.setFirstName(name);

@@ -1,5 +1,8 @@
-package ir.sharifi.soroush.soroush_test_project.detergent.service;
+package ir.sharifi.soroush.soroush_test_project.detergent.tests;
 
+import com.sun.glass.ui.Application;
+import ir.sharifi.soroush.soroush_test_project.H2TestProfileJPAConfig;
+import ir.sharifi.soroush.soroush_test_project.TestConfigs;
 import ir.sharifi.soroush.soroush_test_project.base.model.ProductType;
 import ir.sharifi.soroush.soroush_test_project.base.model.Unit;
 import ir.sharifi.soroush.soroush_test_project.detergent.dto.DetergentInsertDto;
@@ -7,11 +10,14 @@ import ir.sharifi.soroush.soroush_test_project.detergent.dto.DetergentOutDto;
 import ir.sharifi.soroush.soroush_test_project.detergent.dto.DetergentUpdateDto;
 import ir.sharifi.soroush.soroush_test_project.detergent.model.Detergent;
 import ir.sharifi.soroush.soroush_test_project.detergent.repo.DetergentRepository;
+import ir.sharifi.soroush.soroush_test_project.detergent.service.DetergentServiceImpl;
+import ir.sharifi.soroush.soroush_test_project.detergent.service.IDetergentService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
@@ -20,7 +26,13 @@ import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@SpringBootTest(classes = {
+        Application.class,
+        H2TestProfileJPAConfig.class,
+        DetergentServiceImpl.class,
+        TestConfigs.class
+})
+@ActiveProfiles("test")
 class DetergentServiceImplTest {
 
     @Autowired
