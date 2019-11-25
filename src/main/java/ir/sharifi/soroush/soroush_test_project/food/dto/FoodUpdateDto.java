@@ -3,12 +3,17 @@ package ir.sharifi.soroush.soroush_test_project.food.dto;
 import ir.sharifi.soroush.soroush_test_project.base.dto.BaseUpdateDto;
 import ir.sharifi.soroush.soroush_test_project.base.model.ProductType;
 import ir.sharifi.soroush.soroush_test_project.base.model.Unit;
+import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+
+@EqualsAndHashCode(callSuper = true)
 @Data
+@Builder
 public class FoodUpdateDto extends BaseUpdateDto<Long> {
     private String name;
     private String producer;

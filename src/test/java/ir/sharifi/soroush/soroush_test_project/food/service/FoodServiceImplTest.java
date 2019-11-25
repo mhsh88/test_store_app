@@ -1,12 +1,12 @@
-package ir.sharifi.soroush.soroush_test_project.detergent.service;
+package ir.sharifi.soroush.soroush_test_project.food.service;
 
 import ir.sharifi.soroush.soroush_test_project.base.model.ProductType;
 import ir.sharifi.soroush.soroush_test_project.base.model.Unit;
-import ir.sharifi.soroush.soroush_test_project.detergent.dto.DetergentInsertDto;
-import ir.sharifi.soroush.soroush_test_project.detergent.dto.DetergentOutDto;
-import ir.sharifi.soroush.soroush_test_project.detergent.dto.DetergentUpdateDto;
-import ir.sharifi.soroush.soroush_test_project.detergent.model.Detergent;
-import ir.sharifi.soroush.soroush_test_project.detergent.repo.DetergentRepository;
+import ir.sharifi.soroush.soroush_test_project.food.dto.FoodInsertDto;
+import ir.sharifi.soroush.soroush_test_project.food.dto.FoodOutDto;
+import ir.sharifi.soroush.soroush_test_project.food.dto.FoodUpdateDto;
+import ir.sharifi.soroush.soroush_test_project.food.model.FoodStuff;
+import ir.sharifi.soroush.soroush_test_project.food.repo.FoodRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,13 +21,13 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class DetergentServiceImplTest {
+class FoodServiceImplTest {
 
     @Autowired
-    IDetergentService detergentService;
+    IFoodService foodService;
 
     @Autowired
-    DetergentRepository detergentRepository;
+    FoodRepository foodRepository;
     private String name;
     private LocalDateTime bringInDate;
     private LocalDateTime bringOutDate;
@@ -37,8 +37,8 @@ class DetergentServiceImplTest {
     private int quantity;
     private Unit unit;
     private int isbn;
-    private Detergent detergent;
-    private DetergentOutDto insert;
+    private FoodStuff foodStuff;
+    private FoodOutDto insert;
 
     @BeforeEach
     void setUp() {
@@ -49,10 +49,10 @@ class DetergentServiceImplTest {
         productionDate = LocalDate.now().minusDays(10);
         expirationDate = LocalDate.now().plusYears(2);
         producer = "producer";
-        quantity = 1;
-        unit = Unit.KILOGRAM;
+        quantity = 5;
+        unit = Unit.BATCH;
         isbn = 123456789;
-        Detergent build = Detergent.DetergentBuilder()
+        FoodStuff build = FoodStuff.FoodBuilder()
                 .name(name)
                 .bringInDate(bringInDate)
                 .bringOutDate(bringOutDate)
@@ -63,44 +63,44 @@ class DetergentServiceImplTest {
                 .unit(unit)
                 .isbn(isbn)
                 .build();
-        detergent = detergentRepository.save(build);
+        foodStuff = foodRepository.save(build);
 
     }
 
     @AfterEach
     void tearDown() {
-        detergentRepository.delete(detergent);
+        foodRepository.delete(foodStuff);
         if (insert != null) {
-            detergentService.delete(insert.getId());
+            foodService.delete(insert.getId());
         }
     }
 
     @Test
     void findById() {
-        DetergentOutDto byId = detergentService.findById(detergent.getId());
+        FoodOutDto byId = foodService.findById(foodStuff.getId());
         assertNotNull(byId);
-        assertEquals(detergent.getId(), byId.getId());
+        assertEquals(foodStuff.getId(), byId.getId());
         assertNotNull(byId.getBringInDate());
-        assertEquals(detergent.getBringInDate(), byId.getBringInDate());
+        assertEquals(foodStuff.getBringInDate(), byId.getBringInDate());
         assertNotNull(byId.getBringOutDate());
-        assertEquals(detergent.getBringOutDate(), byId.getBringOutDate());
+        assertEquals(foodStuff.getBringOutDate(), byId.getBringOutDate());
         assertNotNull(byId.getExpirationDate());
-        assertEquals(detergent.getExpirationDate(), byId.getExpirationDate());
+        assertEquals(foodStuff.getExpirationDate(), byId.getExpirationDate());
         assertNotNull(byId.getProductionDate());
-        assertEquals(detergent.getProductionDate(), byId.getProductionDate());
+        assertEquals(foodStuff.getProductionDate(), byId.getProductionDate());
         assertNotNull(byId.getProducer());
-        assertEquals(detergent.getProducer(), byId.getProducer());
+        assertEquals(foodStuff.getProducer(), byId.getProducer());
         assertNotNull(byId.getName());
-        assertEquals(detergent.getName(), byId.getName());
-        assertEquals(detergent.getIsbn(), byId.getIsbn());
-        assertEquals(detergent.getQuantity(), byId.getQuantity());
+        assertEquals(foodStuff.getName(), byId.getName());
+        assertEquals(foodStuff.getIsbn(), byId.getIsbn());
+        assertEquals(foodStuff.getQuantity(), byId.getQuantity());
         assertNotNull(byId.getUnit());
-        assertEquals(detergent.getUnit(), byId.getUnit());
+        assertEquals(foodStuff.getUnit(), byId.getUnit());
 
-        assertEquals(detergent.getType(), byId.getType());
+        assertEquals(foodStuff.getType(), byId.getType());
 
 
-        assertThrows(EntityNotFoundException.class, () -> detergentService.findById(0L));
+        assertThrows(EntityNotFoundException.class, () -> foodService.findById(0L));
 
 
     }
@@ -108,7 +108,7 @@ class DetergentServiceImplTest {
     @Test
     void insert() {
 
-        DetergentInsertDto newInsertDto = DetergentInsertDto.builder()
+        FoodInsertDto newInsertDto = FoodInsertDto.builder()
                 .name(name)
                 .bringInDate(bringInDate)
                 .bringOutDate(bringInDate.plusYears(2))
@@ -118,9 +118,9 @@ class DetergentServiceImplTest {
                 .quantity(quantity)
                 .unit(unit)
                 .isbn(isbn)
-                .type(ProductType.FOODSTUFF)
+                .type(ProductType.DETERGENT)
                 .build();
-        insert = detergentService.insert(newInsertDto);
+        insert = foodService.insert(newInsertDto);
 
         assertNotNull(insert);
         assertNotNull(insert.getId());
@@ -143,12 +143,12 @@ class DetergentServiceImplTest {
 
         assertEquals(newInsertDto.getType(), insert.getType());
 
-        assertEquals(insert.getType(), ProductType.DETERGENT);
+        assertEquals(insert.getType(), ProductType.FOODSTUFF);
     }
 
     @Test
     void checkProductDatesLogic() {
-        DetergentInsertDto detergentInsertDto = DetergentInsertDto.builder()
+        FoodInsertDto detergentInsertDto = FoodInsertDto.builder()
                 .name(name)
                 .bringInDate(bringInDate)
                 .bringOutDate(bringInDate.minusDays(5))
@@ -158,28 +158,27 @@ class DetergentServiceImplTest {
                 .quantity(quantity)
                 .unit(unit)
                 .isbn(isbn)
-                .type(ProductType.FOODSTUFF)
                 .build();
 
         detergentInsertDto.setBringInDate(LocalDateTime.now());
         detergentInsertDto.setProductionDate(LocalDate.now().plusDays(4));
-        ConstraintViolationException thrown = assertThrows(ConstraintViolationException.class, () -> detergentService.insert(detergentInsertDto));
+        ConstraintViolationException thrown = assertThrows(ConstraintViolationException.class, () -> foodService.insert(detergentInsertDto));
         assertTrue(thrown.getMessage().contains("product.production.date.is.after.bringIn.date"));
 
 
         detergentInsertDto.setExpirationDate(LocalDate.now());
         detergentInsertDto.setBringInDate(LocalDateTime.now().plusDays(4));
-        thrown = assertThrows(ConstraintViolationException.class,()->detergentService.insert(detergentInsertDto));
+        thrown = assertThrows(ConstraintViolationException.class,()-> foodService.insert(detergentInsertDto));
         assertTrue(thrown.getMessage().contains("product.expire.date.is.before.bringIn.date"));
 
         detergentInsertDto.setBringInDate(LocalDateTime.now());
         detergentInsertDto.setBringOutDate(LocalDateTime.now().minusDays(2));
-        thrown = assertThrows(ConstraintViolationException.class,()->detergentService.insert(detergentInsertDto));
+        thrown = assertThrows(ConstraintViolationException.class,()-> foodService.insert(detergentInsertDto));
         assertTrue(thrown.getMessage().contains("product.bringIn.date.is.after.bringOut.date"));
 
         detergentInsertDto.setProductionDate(LocalDate.now());
         detergentInsertDto.setExpirationDate(LocalDate.now().minusDays(5));
-        thrown = assertThrows(ConstraintViolationException.class,()->detergentService.insert(detergentInsertDto));
+        thrown = assertThrows(ConstraintViolationException.class,()-> foodService.insert(detergentInsertDto));
         assertTrue(thrown.getMessage().contains("product.production.date.is.after.expiration.date"));
     }
 
@@ -187,7 +186,7 @@ class DetergentServiceImplTest {
     void update() {
 
 
-        DetergentInsertDto newInsertDto = DetergentInsertDto.builder()
+        FoodInsertDto newInsertDto = FoodInsertDto.builder()
                 .name(name)
                 .bringInDate(bringInDate)
                 .bringOutDate(bringInDate.plusYears(2))
@@ -197,9 +196,9 @@ class DetergentServiceImplTest {
                 .quantity(quantity)
                 .unit(unit)
                 .isbn(isbn)
-                .type(ProductType.FOODSTUFF)
+                .type(ProductType.DETERGENT)
                 .build();
-        insert = detergentService.insert(newInsertDto);
+        insert = foodService.insert(newInsertDto);
 
         bringInDate = bringInDate.minusYears(2);
         name = "updateName";
@@ -207,7 +206,7 @@ class DetergentServiceImplTest {
         quantity = 23;
         unit = Unit.NUMBER;
         isbn  = 987654;
-        DetergentUpdateDto updateDto = DetergentUpdateDto.builder()
+        FoodUpdateDto updateDto = FoodUpdateDto.builder()
                 .name(name)
                 .bringInDate(bringInDate)
                 .bringOutDate(bringInDate.plusYears(2))
@@ -217,11 +216,11 @@ class DetergentServiceImplTest {
                 .quantity(quantity)
                 .unit(unit)
                 .isbn(isbn)
-                .type(ProductType.FOODSTUFF)
+                .type(ProductType.DETERGENT)
                 .build();
         updateDto.setId(insert.getId());
 
-        insert = detergentService.update(updateDto);
+        insert = foodService.update(updateDto);
 
         assertNotNull(insert);
         assertNotNull(insert.getId());
@@ -245,7 +244,7 @@ class DetergentServiceImplTest {
 
         assertEquals(updateDto.getType(), insert.getType());
 
-        assertEquals(insert.getType(), ProductType.DETERGENT);
+        assertEquals(insert.getType(), ProductType.FOODSTUFF);
 
     }
 
@@ -256,6 +255,6 @@ class DetergentServiceImplTest {
 
     @Test
     void getModels() {
-        assertTrue(detergentService.getModels().size()>0);
+        assertTrue(foodService.getModels().size()>0);
     }
 }
