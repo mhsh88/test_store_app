@@ -1,6 +1,5 @@
 package ir.sharifi.soroush.soroush_test_project.food.tests;
 
-import com.sun.glass.ui.Application;
 import ir.sharifi.soroush.soroush_test_project.H2TestProfileJPAConfig;
 import ir.sharifi.soroush.soroush_test_project.TestConfigs;
 import ir.sharifi.soroush.soroush_test_project.base.model.ProductType;
@@ -16,10 +15,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
 
 import javax.persistence.EntityNotFoundException;
@@ -30,7 +26,6 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {
-        Application.class,
         H2TestProfileJPAConfig.class,
         FoodServiceImpl.class,
         TestConfigs.class

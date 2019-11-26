@@ -1,9 +1,7 @@
 package ir.sharifi.soroush.soroush_test_project.user.tests;
 
-import com.sun.glass.ui.Application;
 import ir.sharifi.soroush.soroush_test_project.H2TestProfileJPAConfig;
 import ir.sharifi.soroush.soroush_test_project.TestConfigs;
-import ir.sharifi.soroush.soroush_test_project.food.repo.FoodRepository;
 import ir.sharifi.soroush.soroush_test_project.user.dto.UserInsertDto;
 import ir.sharifi.soroush.soroush_test_project.user.dto.UserOutDto;
 import ir.sharifi.soroush.soroush_test_project.user.dto.UserUpdateDto;
@@ -29,7 +27,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {
-        Application.class,
         H2TestProfileJPAConfig.class,
         UserServiceImpl.class,
         TestConfigs.class

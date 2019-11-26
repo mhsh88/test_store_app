@@ -1,6 +1,5 @@
 package ir.sharifi.soroush.soroush_test_project.detergent.tests;
 
-import com.sun.glass.ui.Application;
 import ir.sharifi.soroush.soroush_test_project.H2TestProfileJPAConfig;
 import ir.sharifi.soroush.soroush_test_project.TestConfigs;
 import ir.sharifi.soroush.soroush_test_project.base.model.ProductType;
@@ -27,7 +26,6 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(classes = {
-        Application.class,
         H2TestProfileJPAConfig.class,
         DetergentServiceImpl.class,
         TestConfigs.class
