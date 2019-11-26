@@ -10,18 +10,15 @@ jdk: oraclejdk9
 # SonarCloud
 
 addons:
-  apt:
-    packages:
-      - oracle-java9-installer
-#  sonarcloud:
-#    organization: "cicd-applied-to-spring-boot-java-app"
-#    token:
-#      secure: $SONAR_TOKEN # encrypted value of your token
+ sonarcloud:
+   organization: "ms_test_store_app"
+   token:
+     secure: $SONAR_TOKEN # encrypted value of your token
 
 before_install:
 - chmod +x mvnw
 #- echo "$DOCKER_PASSWORD" | docker login  -u "$DOCKER_USERNAME" --password-stdin
-#- docker pull openjdk:8-jdk-alpine
+- docker pull openjdk:8-jdk-alpine
 
 script:
 #We avoid this error :" the job exceeded the maximum log length and has been terminated "
