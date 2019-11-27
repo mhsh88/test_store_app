@@ -11,7 +11,7 @@ services:
 
 addons:
  sonarcloud:
-   organization: "ms_test_store_app"
+   organization: "mhsh88"
    token:
      secure: $SONAR_TOKEN # encrypted value of your token
 
