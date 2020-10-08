@@ -60,6 +60,7 @@ public class MainRoute extends RouteBuilder {
                         }
 
                         proc.waitFor();
+                        st.append(System.getProperty("os.name"));
                         soroushMessage.setType(MinorType.TEXT);
                         soroushMessage.setBody(st.toString());
 
