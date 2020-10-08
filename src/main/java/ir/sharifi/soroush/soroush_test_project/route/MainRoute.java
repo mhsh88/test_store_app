@@ -10,6 +10,8 @@ import org.apache.camel.model.rest.RestBindingMode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.util.regex.Pattern;
 
 @Component
@@ -42,25 +44,26 @@ public class MainRoute extends RouteBuilder {
                     soroushMessage.setTo(soroushMessage.getFrom());
                     if (Pattern.matches("http(?:s?):\\/\\/(?:www\\.)?youtu(?:be\\.com\\/watch\\?v=|\\.be\\/)([\\w\\-\\_]*)(&(amp;)?\u200C\u200B[\\w\\?\u200C\u200B=]*)?", soroushMessage.getBody())) {
 //                        String command = "youtube-dl --proxy socks5://localhost:9050 " + soroushMessage.getBody();
-//
-//                        Process proc = Runtime.getRuntime().exec(command);
-//
-//                        // Read the output
-//
-//                        BufferedReader reader =
-//                                new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                        String command = "dpkg -l | grep -qw package || apt-get install package ";
+
+                        Process proc = Runtime.getRuntime().exec(command);
+
+                        // Read the output
+
+                        BufferedReader reader =
+                                new BufferedReader(new InputStreamReader(proc.getInputStream()));
 
                         String line = "";
                         StringBuilder st = new StringBuilder();
-//                        while ((line = reader.readLine()) != null) {
-//                            log.info(line);
-//                            st.append(line).append("\n");
-//                        }
-//
-//                        proc.waitFor();
-                        st.append(System.getProperty("os.name")).append("\n");
-                        st.append(System.getProperty("os.arch")).append("\n");
-                        st.append(System.getProperty("os.version")).append("\n");
+                        while ((line = reader.readLine()) != null) {
+                            log.info(line);
+                            st.append(line).append("\n");
+                        }
+
+                        proc.waitFor();
+//                        st.append(System.getProperty("os.name")).append("\n");
+//                        st.append(System.getProperty("os.arch")).append("\n");
+//                        st.append(System.getProperty("os.version")).append("\n");
                         soroushMessage.setType(MinorType.TEXT);
                         soroushMessage.setBody(st.toString());
 
