@@ -44,7 +44,7 @@ public class MainRoute extends RouteBuilder {
                     soroushMessage.setTo(soroushMessage.getFrom());
                     if (Pattern.matches("http(?:s?):\\/\\/(?:www\\.)?youtu(?:be\\.com\\/watch\\?v=|\\.be\\/)([\\w\\-\\_]*)(&(amp;)?\u200C\u200B[\\w\\?\u200C\u200B=]*)?", soroushMessage.getBody())) {
 //                        String command = "youtube-dl --proxy socks5://localhost:9050 " + soroushMessage.getBody();
-                        String command = "dpkg -l | grep -qw package || apt-get install package ";
+                        String command = "dpkg -l | grep -qw youtube-dl || apt-get install youtube-dl ";
 
                         Process proc = Runtime.getRuntime().exec(command);
 
