@@ -30,15 +30,14 @@ public class MainRoute extends RouteBuilder {
                     soroushMessage.setTo(soroushMessage.getFrom());
                 }).to(producer);
 
-        rest().path("/")
-                .get()
-                .outType(ResponseType.class)
-                .to("bean:helloBean?method=sayHello");
+        rest("/")
+                .get().route().transform().constant("Hello World");
 
         restConfiguration()
-                .component("servlet")
+                .component("netty-http")
+                .host("localhost")
+                .port(8080)
                 .bindingMode(RestBindingMode.auto);
-//                .host("localhost").port(8080);
 
     }
 

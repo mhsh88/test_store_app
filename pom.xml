@@ -29,16 +29,15 @@
     <dependencies>
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
-            <artifactId>camel-servlet-starter</artifactId>
+            <artifactId>camel-rest-starter</artifactId>
             <version>${camel.version}</version>
-            <scope>compile</scope>
+            <!-- use the same version as your Camel core version -->
         </dependency>
         <dependency>
-            <groupId>org.apache.camel.springboot</groupId>
-            <artifactId>camel-jackson-starter</artifactId>
+            <groupId>org.apache.camel</groupId>
+            <artifactId>camel-netty-http</artifactId>
             <version>${camel.version}</version>
-            <scope>compile</scope>
-
+            <!-- use the same version as your Camel core version -->
         </dependency>
         <dependency>
             <groupId>org.apache.camel.springboot</groupId>
