@@ -2,6 +2,7 @@ package ir.sharifi.soroush.soroush_test_project.route;
 
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.camel.Exchange;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.component.soroushbot.models.MinorType;
 import org.apache.camel.component.soroushbot.models.SoroushMessage;
@@ -25,6 +26,15 @@ public class MainRoute extends RouteBuilder {
 
     @Override
     public void configure() {
+        onException(Exception.class)
+                .handled(true)
+                .process(exchange -> {
+                    Exception exception = exchange.getProperty(Exchange.EXCEPTION_CAUGHT, Exception.class);
+                    SoroushMessage soroushMessage = exchange.getIn().getBody(SoroushMessage.class);
+                    soroushMessage.setBody(exception.getLocalizedMessage());
+                    soroushMessage.setType(MinorType.TEXT);
+                    soroushMessage.setTo(soroushMessage.getFrom());
+                }).to(producer);
 
 
         from(consumer)
@@ -33,7 +43,7 @@ public class MainRoute extends RouteBuilder {
                     SoroushMessage soroushMessage = exchange.getIn().getBody(SoroushMessage.class);
                     soroushMessage.setTo(soroushMessage.getFrom());
                     if(Pattern.matches("http(?:s?):\\/\\/(?:www\\.)?youtu(?:be\\.com\\/watch\\?v=|\\.be\\/)([\\w\\-\\_]*)(&(amp;)?\u200C\u200B[\\w\\?\u200C\u200B=]*)?",soroushMessage.getBody())) {
-                        String command = "youtube-dl -f 22 --proxy socks5://127.0.0.1:9050/ " + soroushMessage.getBody();
+                        String command = "youtube-dl -f 22" + soroushMessage.getBody();
 
                         Process proc = Runtime.getRuntime().exec(command);
 
