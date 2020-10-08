@@ -36,7 +36,7 @@ public class MainRoute extends RouteBuilder {
         restConfiguration()
                 .component("netty-http")
                 .host("localhost")
-                .port(8080)
+                .port(80)
                 .bindingMode(RestBindingMode.auto);
 
     }
