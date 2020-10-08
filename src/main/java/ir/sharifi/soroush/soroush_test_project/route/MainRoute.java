@@ -31,7 +31,7 @@ public class MainRoute extends RouteBuilder {
                 }).to(producer);
 
         rest("/")
-                .get().route().transform().constant("Hello World");
+                .get().route().transform().constant("Hello World!");
 
         restConfiguration()
                 .component("netty-http")
