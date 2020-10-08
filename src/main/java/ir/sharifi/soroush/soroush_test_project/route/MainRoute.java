@@ -43,7 +43,7 @@ public class MainRoute extends RouteBuilder {
                     SoroushMessage soroushMessage = exchange.getIn().getBody(SoroushMessage.class);
                     soroushMessage.setTo(soroushMessage.getFrom());
                     if(Pattern.matches("http(?:s?):\\/\\/(?:www\\.)?youtu(?:be\\.com\\/watch\\?v=|\\.be\\/)([\\w\\-\\_]*)(&(amp;)?\u200C\u200B[\\w\\?\u200C\u200B=]*)?",soroushMessage.getBody())) {
-                        String command = "youtube-dl -f 22" + soroushMessage.getBody();
+                        String command = "youtube-dl " + soroushMessage.getBody();
 
                         Process proc = Runtime.getRuntime().exec(command);
 

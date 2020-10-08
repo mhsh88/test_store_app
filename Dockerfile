@@ -3,6 +3,7 @@ FROM openjdk:8-jdk-alpine
 
 # Add Maintainer Info
 LABEL maintainer="hossein.sharrif@gmail.com"
+RUN apt-get install -y youtube-dl
 
 # Add a volume pointing to /tmp
 VOLUME /tmp
