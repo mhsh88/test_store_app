@@ -7,6 +7,7 @@ LABEL maintainer="hossein.sharrif@gmail.com"
 
 RUN apk add youtube-dl
 # Add a volume pointing to /tmp
+RUN youtube-dl --version
 VOLUME /tmp
 
 EXPOSE ${PORT}
