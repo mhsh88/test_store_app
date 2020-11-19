@@ -90,6 +90,16 @@ public class MainRoute extends RouteBuilder {
 
                     }
                 })
+                .process(exchange->{
+                    SoroushMessage response = new SoroushMessage();
+                    response.setTo(exchange.getIn().getBody(SoroushMessage.class).getFrom());
+                    String filename = (String)
+                            exchange.getIn().getHeader(Exchange.FILE_NAME);
+
+                    response.setFile(new File(filename));
+                    response.setType(MinorType.FILE);
+                    response.setFileType(FileType.VIDEO);
+                })
                 .process(exchange -> {
                     MultipartEntityBuilder multipartEntityBuilder =
                             MultipartEntityBuilder.create();
